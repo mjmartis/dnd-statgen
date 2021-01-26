@@ -2,7 +2,7 @@ import argparse
 import math
 import random
 
-STEPS=100000
+STEPS=10000
 
 parser = argparse.ArgumentParser(description='Generate random DnD ability scores.')
 parser.add_argument('--num',
@@ -51,8 +51,10 @@ def main():
     # Twiddle scores until the variance is correct.
     avg = args.total / args.num
     var = sum((s - avg)**2 for s in ss) / args.num
+    best_ss = ss.copy()
+    best_var = var
     for _ in range(STEPS):
-        if math.isclose(var, args.var):
+        if math.isclose(best_var, args.var):
             break
 
         i, j = [random.randrange(0, args.num) for _ in range(2)]
@@ -74,19 +76,18 @@ def main():
             ss[j] += 1
             var += ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
 
-    # Allow for the minimum amount of deviation from requested variance.
-    if abs(var - args.var) > 1 / args.num:
-        print('Could not achieve var =', args.var)
-        exit(1)
+        if abs(var - args.var) < abs(best_var - args.var):
+            best_ss = ss.copy()
+            best_var = var
 
-    print('Result:', ' '.join(str(s) for s in ss))
-    if not math.isclose(var, args.var):
-        print('Actual var =', var)
+    print('Result:', ' '.join(str(s) for s in best_ss))
+    if not math.isclose(best_var, args.var):
+        print('Actual var =', best_var)
 
     # Debug print.
-    #print('Actual total =', sum(ss))
-    #print('Actual avg =', sum(ss) / args.num) 
-    #print('Actual var =', sum((s - avg)**2 for s in ss) / args.num)
+    #print('Actual total =', sum(best_ss))
+    #print('Actual avg =', sum(best_ss) / args.num)
+    #print('Actual var =', sum((s - avg)**2 for s in best_ss) / args.num)
 
 if __name__ == "__main__":
     main()
