@@ -2,7 +2,7 @@ import argparse
 import math
 import random
 
-STEPS=5000
+STEPS=100000
 
 parser = argparse.ArgumentParser(description='Generate random DnD ability scores.')
 parser.add_argument('--num',
@@ -38,7 +38,7 @@ def main():
 
     # Randomly allocate remainder.
     if args.total % args.num != 0:
-        idxs = range(args.num)
+        idxs = list(range(args.num))
         for _ in range(args.num - args.total % args.num):
             del idxs[random.randrange(0, len(idxs))]
 
@@ -74,11 +74,14 @@ def main():
             ss[j] += 1
             var += ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
 
+    # Allow for the minimum amount of deviation from requested variance.
     if abs(var - args.var) > 1 / args.num:
         print('Could not achieve var =', args.var)
         exit(1)
 
     print('Result:', ' '.join(str(s) for s in ss))
+    if not math.isclose(var, args.var):
+        print('Actual var =', var)
 
     # Debug print.
     #print('Actual total =', sum(ss))
