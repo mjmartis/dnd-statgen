@@ -28,7 +28,7 @@ parser.add_argument('--var',
 
 def main():
     args = parser.parse_args()
-    print('Using:', *[k + '=' + str(v) for k, v in vars(args).items()])
+    print(f'Using:', *[k + '=' + str(v) for k, v in vars(args).items()])
 
     # Generate inital scores as close as possible to "all average".
 
@@ -45,7 +45,7 @@ def main():
         for i in idxs:
             ss[i] += 1
             if ss[i] > args.max:
-                print('Could not achieve total =', args.total)
+                print(f'Could not achieve total={args.total}')
                 exit(1)
 
     # Twiddle scores until the variance is correct.
@@ -80,14 +80,14 @@ def main():
             best_ss = ss.copy()
             best_var = var
 
-    print('Result:', ' '.join(str(s) for s in best_ss))
+    print(f'Result: {" ".join(str(s) for s in best_ss)}')
     if not math.isclose(best_var, args.var):
-        print('Actual var =', best_var)
+        print(f'Actual var={best_var}')
 
     # Debug print.
-    #print('Actual total =', sum(best_ss))
-    #print('Actual avg =', sum(best_ss) / args.num)
-    #print('Actual var =', sum((s - avg)**2 for s in best_ss) / args.num)
+    #print(f'Actual total={sum(best_ss)}')
+    #print(f'Actual avg={sum(best_ss) / args.num}')
+    #print(f'Actual var={sum((s - avg)**2 for s in best_ss) / args.num}')
 
 if __name__ == "__main__":
     main()
