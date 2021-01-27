@@ -15,11 +15,11 @@ parser.add_argument('--total',
                     help='The total sum of all ability scores.')
 parser.add_argument('--max',
                     type=int,
-                    default=18,
+                    default=17,
                     help='The maximum value of any ability score.')
 parser.add_argument('--min',
                     type=int,
-                    default=6,
+                    default=7,
                     help='The minimum value of any ability score.')
 parser.add_argument('--var',
                     type=float,
