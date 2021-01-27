@@ -80,7 +80,7 @@ def main():
             best_ss = ss.copy()
             best_var = var
 
-    print(f'Result: {" ".join(str(s) for s in best_ss)}')
+    print(f'Result: {" ".join(str(s) for s in sorted(best_ss, reverse=True))}')
     if not math.isclose(best_var, args.var):
         print(f'Actual var={best_var}')
 
