@@ -69,7 +69,7 @@ def main():
             ss[i] += 1
             ss[j] -= 1
             var += ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
-        # Pull two scores away from each other to increase variance.
+        # Push two scores away from each other to increase variance.
         elif var < args.var and ss[i] > args.min and ss[j] < args.max:
             var -= ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
             ss[i] -= 1
