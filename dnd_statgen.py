@@ -37,16 +37,11 @@ def main():
     ss = [int(args.total / args.num) for _ in range(args.num)]
 
     # Randomly allocate remainder.
-    if args.total % args.num != 0:
-        idxs = list(range(args.num))
-        for _ in range(args.num - args.total % args.num):
-            del idxs[random.randrange(0, len(idxs))]
-
-        for i in idxs:
-            ss[i] += 1
-            if ss[i] > args.max:
-                print(f'Could not achieve total={args.total}')
-                exit(1)
+    for i in random.sample(range(args.num), args.total % args.num):
+       ss[i] += 1
+       if ss[i] > args.max:
+           print(f'Could not achieve total={args.total}')
+           exit(1)
 
     # Twiddle scores until the variance is correct.
     avg = args.total / args.num
