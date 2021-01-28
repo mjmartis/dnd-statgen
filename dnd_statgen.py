@@ -52,25 +52,27 @@ def main():
         if math.isclose(best_var, args.var):
             break
 
+        # Choose two scores with the second no less than the first.
         i, j = [random.randrange(0, args.num) for _ in range(2)]
         if i == j:
             continue
         elif ss[i] > ss[j]:
             i, j = j, i
 
-        # Pull two scores towards each other to decrease variance.
+        # Pull the scores towards each other to decrease variance.
         if var > args.var and ss[i] != ss[j] and ss[i] < args.max and ss[j] > args.min:
             var -= ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
             ss[i] += 1
             ss[j] -= 1
             var += ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
-        # Pull two scores away from each other to increase variance.
+        # Push the scores away from each other to increase variance.
         elif var < args.var and ss[i] > args.min and ss[j] < args.max:
             var -= ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
             ss[i] -= 1
             ss[j] += 1
             var += ((ss[i] - avg)**2 + (ss[j] - avg)**2) / args.num
 
+        # Keep scores with variance closest to requested.
         if abs(var - args.var) < abs(best_var - args.var):
             best_ss = ss.copy()
             best_var = var
