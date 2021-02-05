@@ -28,7 +28,7 @@ parser.add_argument('--var',
 
 def main():
     args = parser.parse_args()
-    print(f'Using:', *[k + '=' + str(v) for k, v in vars(args).items()])
+    print(f'Using:', *[f'{k}={v}' for k, v in vars(args).items()])
 
     # Generate inital scores as close as possible to "all average".
 
