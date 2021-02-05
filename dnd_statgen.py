@@ -53,10 +53,8 @@ def main():
             break
 
         # Choose two scores with the second no less than the first.
-        i, j = [random.randrange(0, args.num) for _ in range(2)]
-        if i == j:
-            continue
-        elif ss[i] > ss[j]:
+        i, j = random.sample(range(args.num), 2)
+        if ss[i] > ss[j]:
             i, j = j, i
 
         # Pull the scores towards each other to decrease variance.
